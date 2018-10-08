@@ -101,7 +101,27 @@ class CompanyController extends Controller
      */
     public function update(Request $request, Company $company)
     {
-        //
+        $validator=Validator::make($request->all(), [
+            'name'=>'required',
+            'slug'=>'required'
+        ]);
+
+        if($validator->fails()){
+            return response(array('success'=>false,'error'=>$validator->errors()),200);
+        }
+
+        try{
+            Company::where('id', $company->id)
+                ->update([
+                    'name' =>$request->name,
+                    'slug'=>$request->slug
+                ]);
+            return response(array('success'=>true,'message'=>'Komapnija updateovana'),200);
+        }
+        catch (\Exception $e){
+            return response(array('success'=>false,'error'=>$e->getMessage()),200);
+        }
+
     }
 
     /**
@@ -119,7 +139,7 @@ class CompanyController extends Controller
             return response(array('success'=>true,'message'=>'Kompanija obrisana'),200);
         }
         catch (\Exception $e){
-            return response(array('success'=>false,'message'=>'test'),200);
+            return response(array('success'=>false,'message'=>$e->getMessage()),200);
         }
     }
 }
