@@ -46,7 +46,7 @@ class UserController extends Controller
         ]);
 
         if($validator->fails()){
-            return response(array('success'=>false,'error'=>'Polja nisu u dobrom formatu'),200);
+            return response(array('success'=>false,'error'=>$validator->errors()),200);
         }
 
         try{
@@ -97,7 +97,7 @@ class UserController extends Controller
         ]);
 
         if($validator->fails()){
-            return response(array('success'=>false,'error'=>'Polja nisu u dobrom formatu'),200);
+            return response(array('success'=>false,'error'=>$validator->errors()),200);
         }
 
         try{
