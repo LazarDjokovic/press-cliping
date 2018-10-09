@@ -41,9 +41,11 @@ class CompanyController extends Controller
      */
     public function store(Request $request)
     {
+        //return response($request->all(),200);
         $validator=Validator::make($request->all(), [
-            'name'=>'required',
-            'slug'=>'required'
+            'name'=>'required|unique:companies',
+            'slug'=>'required|unique:companies',
+            'keywords.*'=>'required|unique:keywords,name'
         ]);
 
         if($validator->fails()){
@@ -58,8 +60,7 @@ class CompanyController extends Controller
 
             foreach($request->keywords as $keyword) {
                 Keyword::create([
-                    'name' => $keyword['name'],
-                    'slug' => $keyword['slug'],
+                    'name' => $keyword,
                     'company_id'=>$companyId
                 ]);
             }
@@ -102,8 +103,8 @@ class CompanyController extends Controller
     public function update(Request $request, Company $company)
     {
         $validator=Validator::make($request->all(), [
-            'name'=>'required',
-            'slug'=>'required'
+            'name'=>'required|unique:companies',
+            'slug'=>'required|unique:companies'
         ]);
 
         if($validator->fails()){

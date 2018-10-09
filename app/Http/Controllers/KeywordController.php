@@ -38,8 +38,7 @@ class KeywordController extends Controller
     {
         //return response ($request->all(),200);
         $validator=Validator::make($request->all(), [
-            'name'=>'required',
-            'slug'=>'required',
+            'name'=>'required|unique:keywords',
             'company_id'=>'required'
         ]);
 
@@ -50,7 +49,6 @@ class KeywordController extends Controller
         try{
             $companyId = Keyword::create([
                 'name' => $request->name,
-                'slug' => $request->slug,
                 'company_id'=>$request->company_id
             ]);
 
@@ -93,8 +91,7 @@ class KeywordController extends Controller
     public function update(Request $request, Keyword $keyword)
     {
         $validator=Validator::make($request->all(), [
-            'name'=>'required',
-            'slug'=>'required',
+            'name'=>'required|unique:keywords',
             'company_id'=>'required'
         ]);
 
@@ -106,7 +103,6 @@ class KeywordController extends Controller
             Keyword::where('id', $keyword->id)
                 ->update([
                     'name' =>$request->name,
-                    'slug'=>$request->slug,
                     'company_id'=>$request->company_id
                 ]);
             return response(array('success'=>true,'message'=>'Keyword updated'),200);
