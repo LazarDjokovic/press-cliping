@@ -66,6 +66,6 @@ class LoginController extends Controller
             return response(array('success' => true, 'user' => $user), 200);
         }
 
-        return response(array('success'=>false,'message'=>'Email ili lozinka ne postoje'), 200);
+        return response(array('success'=>false,'message'=>'Email or user doesn\' t exist' ), 200);
     }
 }
