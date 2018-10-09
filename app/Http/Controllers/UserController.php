@@ -91,6 +91,7 @@ class UserController extends Controller
     {
         $validator=Validator::make($request->all(), [
             'email'=>'required|email|unique:users',
+            "password"=>'required',
             'name'=>'required',
             'last_name'=>'required',
         ]);
@@ -104,7 +105,8 @@ class UserController extends Controller
                 ->update([
                     'name' =>$request->name,
                     'last_name'=>$request->last_name,
-                    'email'=>$request->email
+                    'email'=>$request->email,
+                    'password'=>$request->password
                 ]);
             return response(array('success'=>true,'message'=>'User updateovan'),200);
         }
