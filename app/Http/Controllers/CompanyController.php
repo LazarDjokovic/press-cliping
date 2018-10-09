@@ -63,7 +63,7 @@ class CompanyController extends Controller
                     'company_id'=>$companyId
                 ]);
             }
-            return response(array('success'=>true,'message'=> 'Company i keywords dodati'),200);
+            return response(array('success'=>true,'message'=> 'Company and keywords added'),200);
         }
         catch(\Exception $e){
             return response(array('success'=>false,'message'=> $e->getMessage()),200);
@@ -116,12 +116,11 @@ class CompanyController extends Controller
                     'name' =>$request->name,
                     'slug'=>$request->slug
                 ]);
-            return response(array('success'=>true,'message'=>'Komapnija updateovana'),200);
+            return response(array('success'=>true,'message'=>'Company updated'),200);
         }
         catch (\Exception $e){
             return response(array('success'=>false,'error'=>$e->getMessage()),200);
         }
-
     }
 
     /**
@@ -136,7 +135,7 @@ class CompanyController extends Controller
 
         try{
             $companyDelete->delete();
-            return response(array('success'=>true,'message'=>'Kompanija obrisana'),200);
+            return response(array('success'=>true,'message'=>'Company deleted'),200);
         }
         catch (\Exception $e){
             return response(array('success'=>false,'message'=>$e->getMessage()),200);

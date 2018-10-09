@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Model\Keyword;
 use Illuminate\Http\Request;
+use Validator;
 
 class KeywordController extends Controller
 {
@@ -35,7 +36,29 @@ class KeywordController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        //return response ($request->all(),200);
+        $validator=Validator::make($request->all(), [
+            'name'=>'required',
+            'slug'=>'required',
+            'company_id'=>'required'
+        ]);
+
+        if($validator->fails()){
+            return response(array('success'=>false,'error'=>$validator->errors()),200);
+        }
+
+        try{
+            $companyId = Keyword::create([
+                'name' => $request->name,
+                'slug' => $request->slug,
+                'company_id'=>$request->company_id
+            ]);
+
+            return response(array('success'=>true,'message'=> 'Keywords added'),200);
+        }
+        catch(\Exception $e){
+            return response(array('success'=>false,'message'=> $e->getMessage()),200);
+        }
     }
 
     /**
@@ -69,7 +92,28 @@ class KeywordController extends Controller
      */
     public function update(Request $request, Keyword $keyword)
     {
-        //
+        $validator=Validator::make($request->all(), [
+            'name'=>'required',
+            'slug'=>'required',
+            'company_id'=>'required'
+        ]);
+
+        if($validator->fails()){
+            return response(array('success'=>false,'error'=>$validator->errors()),200);
+        }
+
+        try{
+            Keyword::where('id', $keyword->id)
+                ->update([
+                    'name' =>$request->name,
+                    'slug'=>$request->slug,
+                    'company_id'=>$request->company_id
+                ]);
+            return response(array('success'=>true,'message'=>'Keyword updated'),200);
+        }
+        catch (\Exception $e){
+            return response(array('success'=>false,'error'=>$e->getMessage()),200);
+        }
     }
 
     /**
@@ -80,6 +124,12 @@ class KeywordController extends Controller
      */
     public function destroy(Keyword $keyword)
     {
-        //
+        try{
+            Keyword::where('id','=',$keyword->id)->delete();
+            return response(array('success'=>true,'message'=>'Keyword deleted'),200);
+        }
+        catch (\Exception $e){
+            return response(array('success'=>false,'message'=>$e->getMessage()),200);
+        }
     }
 }

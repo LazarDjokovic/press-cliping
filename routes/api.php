@@ -26,4 +26,5 @@ Route::group(['middleware' => 'apikey'], function(){
 Route::group(['middleware' => 'apikey'], function(){
     Route::apiResource('/users','UserController');
     Route::apiResource('/companies','CompanyController');
+    Route::apiResource('/keywords','KeywordController');
 });
