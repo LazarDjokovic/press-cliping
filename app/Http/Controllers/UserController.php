@@ -51,7 +51,7 @@ class UserController extends Controller
 
         try{
             User::create($request->all());
-            return response(array('success'=>true,'message'=>'Korisnik dodat'),200);
+            return response(array('success'=>true,'message'=>'User added'),200);
         }
         catch(\Exception $e){
             return response(array('success'=>false,'message'=> $e->getMessage()),200);
@@ -108,7 +108,7 @@ class UserController extends Controller
                     'email'=>$request->email,
                     'password'=>$request->password
                 ]);
-            return response(array('success'=>true,'message'=>'User updateovan'),200);
+            return response(array('success'=>true,'message'=>'User updated'),200);
         }
         catch (\Exception $e){
             return response(array('success'=>false,'error'=>$e->getMessage()),200);
@@ -123,11 +123,9 @@ class UserController extends Controller
      */
     public function destroy(User $user)
     {
-        $userDelete = User::find($user->id)->first();
-
         try{
-            $userDelete->delete();
-            return response(array('success'=>true,'message'=>'User obrisan'),200);
+            User::where('id','=',$user->id)->delete();
+            return response(array('success'=>true,'message'=>'User deleted'),200);
         }
         catch (\Exception $e){
             return response(array('success'=>false,'message'=>$e->getMessage()),200);
