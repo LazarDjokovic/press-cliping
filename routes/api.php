@@ -13,10 +13,17 @@ use Illuminate\Http\Request;
 |
 */
 
+header("Access-Control-Allow-Origin: *");
+
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::apiResource('/users','UserController');
-Route::apiResource('/companies','CompanyController');
-Route::post('/login', 'Auth\LoginController@login');
+Route::group(['middleware' => 'apikey'], function(){
+    Route::post('/login', 'Auth\LoginController@login');
+});
+
+Route::group(['middleware' => 'apikey'], function(){
+    Route::apiResource('/users','UserController');
+    Route::apiResource('/companies','CompanyController');
+});
