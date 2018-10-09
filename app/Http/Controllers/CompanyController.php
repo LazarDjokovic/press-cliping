@@ -131,10 +131,8 @@ class CompanyController extends Controller
      */
     public function destroy(Company $company)
     {
-        $companyDelete = Company::find($company->id)->first();
-
         try{
-            $companyDelete->delete();
+            Company::where('id','=',$company->id)->delete();
             return response(array('success'=>true,'message'=>'Company deleted'),200);
         }
         catch (\Exception $e){
